@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>GIF Gala RSVP · Where Memes Come to Life!</title>
+  <!-- Google Fonts for extra fun & festive typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <style>
+    /* ----------------------------------------------
+       RESET & BASE STYLES
+       Mobile-first, vibrant, playful, GIF party vibe
+    ------------------------------------------------ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background-color: #1a1e2f;  /* fallback deep color */
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;  /* keeps background fixed while scrolling */
+      min-height: 100vh;
+      transition: background-image 0.25s ease-in-out;
+      /* festive gradient overlay to make text always readable */
+      position: relative;
+    }
+
+    /* semi-transparent overlay to enhance text readability on any background GIF */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: brightness(0.95) blur(1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* all main content sits above overlay */
+    header, main, #confirmation-message, footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ----- FESTIVE COLOR PALETTE -----
+       Primary: #f07167 (coral/peach) 
+       Accent:  #00afb9 (teal/mint)
+       Glow & Sparkle touches */
+    
+    /* HEADER with bounce and gradient */
+    header {
+      background: linear-gradient(135deg, #f07167 0%, #ff8c6b 100%);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-bottom: 5px solid #ffdd88;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 4px 4px 0 #b94b3f, 2px 2px 12px rgba(0,0,0,0.3);
+      letter-spacing: -0.3px;
+      margin-bottom: 0.6rem;
+      word-break: break-word;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: #ffeaac;
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      color: #c63f2e;
+      box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05), 0 6px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(2px);
+    }
+
+    /* main card container — glassmorphism meets party */
+    main {
+      max-width: 620px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1.2rem;
+    }
+
+    /* section cards */
+    section {
+      background: rgba(255, 255, 245, 0.92);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4), 0 1px 2px rgba(255,255,200,0.3);
+      border: 1px solid rgba(255,215,0,0.5);
+      transition: transform 0.2s ease;
+    }
+
+    section:hover {
+      transform: translateY(-4px);
+      border-color: #f07167;
+      box-shadow: 0 28px 28px -12px black;
+    }
+
+    h3 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: #f07167;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 6px solid #00afb9;
+      padding-left: 1rem;
+    }
+
+    h3::before {
+      content: "🎭";
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1.08rem;
+      line-height: 1.5;
+      color: #1e2a32;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    /* FORM STYLES — extra spacing and festive touches */
+    #rsvp-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #b94b3f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    label[for="email"]::before {
+      content: "📧";
+      font-size: 1.3rem;
+    }
+    label[for="attendance"]::before {
+      content: "🎟️✨";
+      font-size: 1.3rem;
+    }
+
+    input, select {
+      background: #ffffff;
+      border: 2px solid #ffe0b5;
+      border-radius: 60px;
+      padding: 0.9rem 1.3rem;
+      font-size: 1rem;
+      font-family: 'Inter', monospace;
+      font-weight: 500;
+      color: #1f2a3a;
+      transition: all 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    input:focus, select:focus {
+      border-color: #f07167;
+      box-shadow: 0 0 0 3px rgba(240,113,103,0.3);
+      background: #fffcf5;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(100deg, #00afb9 0%, #008c9e 100%);
+      border: none;
+      border-radius: 60px;
+      padding: 0.9rem 1.2rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      font-family: inherit;
+      color: white;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 8px 18px rgba(0,175,185,0.3);
+      margin-top: 0.5rem;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(100deg, #1fcbd6, #00a1b0);
+      transform: scale(1.01);
+      box-shadow: 0 12px 22px rgba(0,175,185,0.5);
+    }
+
+    button[type="submit"]:active {
+      transform: scale(0.98);
+    }
+
+    /* confirmation message stylish bubble */
+    #confirmation-message {
+      margin: 0 0 1.8rem 0;
+      min-height: 85px;
+    }
+
+    .msg-card {
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: glitchPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+      border-left: 8px solid #ffd966;
+      box-shadow: 0 18px 28px -8px black;
+      font-weight: 600;
+    }
+
+    .msg-card-attending {
+      border-left-color: #9bff9e;
+      background: linear-gradient(135deg, rgba(0,175,185,0.85), rgba(0,50,40,0.9));
+    }
+
+    .msg-card-declined {
+      border-left-color: #ffb347;
+      background: rgba(30, 20, 35, 0.85);
+    }
+
+    .msg-emoji {
+      font-size: 2.5rem;
+      filter: drop-shadow(2px 2px 0 #00000055);
+    }
+
+    .msg-text {
+      flex: 1;
+      color: #fff4e0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .close-msg {
+      background: rgba(255,255,210,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 40px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .close-msg:hover {
+      background: rgba(255,80,80,0.6);
+    }
+
+    @keyframes glitchPop {
+      0% {
+        opacity: 0;
+        transform: translateY(-18px) scale(0.96);
+      }
+      80% {
+        transform: translateY(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive spacing and mobile touches */
+    @media (max-width: 640px) {
+      body {
+        padding: 0;
+      }
+      header {
+        padding: 1.3rem 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      section {
+        padding: 1.2rem 1.2rem;
+      }
+      h3 {
+        font-size: 1.5rem;
+      }
+      button[type="submit"] {
+        font-size: 1rem;
+      }
+      .msg-emoji {
+        font-size: 1.8rem;
+      }
+      .msg-text {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* footer tiny vibe */
+    footer {
+      text-align: center;
+      font-size: 0.7rem;
+      padding: 1rem;
+      color: #f0e6d2;
+      background: rgba(0,0,0,0.4);
+      width: 100%;
+      backdrop-filter: blur(6px);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🎉 You're Invited to the GIF Gala: Where Memes Come to Life! 🎉</h1>
+  <h2>📅 7/21/23 · The Epicenter of Memes 📅</h2>
+</header>
+
+<main>
+  <!-- About section -->
+  <section>
+    <h3>About the GIF Gala</h3>
+    <p>The GIF Gala is a vibrant and festive event where guests dress up as their favorite GIFs or memes. Join us for a night of laughter, creativity, and unforgettable moments as we bring internet culture to life! Expect meme battles, GIF karaoke, and a red carpet for viral icons. ✨🐸🎞️</p>
+  </section>
+
+  <!-- Confirmation message space (dynamic) -->
+  <div id="confirmation-message"></div>
+
+  <!-- RSVP form section -->
+  <section>
+    <h3>🎪 RSVP — Claim your Meme Pass 🎪</h3>
+    <form id="rsvp-form">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" placeholder="yourbest@meme.gala" required autocomplete="email">
+
+      <label for="attendance">Will you join the chaos?</label>
+      <select id="attendance" name="attendance" required>
+        <option value="" disabled selected>✨ Choose your fate ✨</option>
+        <option value="yes">✅ Yes, I'll be there! (costume epicness)</option>
+        <option value="no">❌ Sorry, I can't make it (sad reaction)</option>
+      </select>
+
+      <button type="submit">🚀 Submit RSVP 🚀</button>
+    </form>
+    <p style="font-size: 0.7rem; margin-top: 1rem; color: #c97864;">🎭 Best dressed wins the Golden Upvote Trophy! #GIFGala</p>
+  </section>
+</main>
+
+<footer>
+  <span>© GIF Gala — Where every reaction is legendary 🎞️💥</span>
+</footer>
+
+<script>
+  // ----------------------------------------------
+  // JAVASCRIPT: RSVP INTERACTIVITY + DYNAMIC BACKGROUND GIFs
+  // Explanation: We listen to form submit, check if user is attending,
+  // show custom message with party emoji, update background GIF to match event mood.
+  // Also covers edge cases, email validation, and fun experience.
+  // ----------------------------------------------
+
+  // Get DOM elements
+  const rsvpForm = document.getElementById('rsvp-form');
+  const confirmationDiv = document.getElementById('confirmation-message');
+  const bodyElement = document.body;
+
+  // Helper: clear any previous confirmation message
+  function clearMessage() {
+    if (confirmationDiv) {
+      confirmationDiv.innerHTML = '';
+    }
+  }
+
+  // Helper to display styled confirmation card with emoji, message and optional close button
+  function displayMessage(attendingStatus, customMessage, extraEmoji) {
+    clearMessage();
+    
+    // Create main card container
+    const card = document.createElement('div');
+    card.className = 'msg-card';
+    if (attendingStatus === 'yes') {
+      card.classList.add('msg-card-attending');
+    } else if (attendingStatus === 'no') {
+      card.classList.add('msg-card-declined');
+    } else {
+      card.classList.add('msg-card');
+    }
+    
+    // Emoji based on attendance
+    let mainEmoji = '';
+    if (attendingStatus === 'yes') mainEmoji = '🎉🤣🎊';
+    else if (attendingStatus === 'no') mainEmoji = '😢💔🕊️';
+    else mainEmoji = '📢✨';
+    
+    if (extraEmoji) mainEmoji = extraEmoji;
+    
+    const emojiSpan = document.createElement('div');
+    emojiSpan.className = 'msg-emoji';
+    emojiSpan.innerText = mainEmoji;
+    
+    const textSpan = document.createElement('div');
+    textSpan.className = 'msg-text';
+    textSpan.innerHTML = customMessage;
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.innerText = '✕';
+    closeBtn.className = 'close-msg';
+    closeBtn.setAttribute('aria-label', 'Dismiss message');
+    closeBtn.addEventListener('click', () => {
+      card.remove();
+      // but we don't reset background when closing msg — only stays as per last rsvp
+    });
+    
+    card.appendChild(emojiSpan);
+    card.appendChild(textSpan);
+    card.appendChild(closeBtn);
+    confirmationDiv.appendChild(card);
+    
+    // Auto-hide after 8 seconds? not mandatory but UX friendly, not too intrusive
+    setTimeout(() => {
+      if (card && card.parentNode) {
+        card.style.transition = 'opacity 0.3s';
+        card.style.opacity = '0';
+        setTimeout(() => {
+          if (card && card.parentNode) card.remove();
+        }, 300);
+      }
+    }, 8000);
+  }
+  
+  // Email validation function (simple but robust)
+  function isValidEmail(email) {
+    if (!email) return false;
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    return emailRegex.test(email) && email.length <= 320;
+  }
+  
+  // Function to set dynamic GIF background based on attending status
+  // Challenge spec: If attending -> use provided GIF (party celebration)
+  // If not attending -> use the sad/funny GIF from challenge description
+  // Also ensure background covers full body, scales, stays fixed
+  function setBackgroundByAttendance(attending) {
+    if (attending === 'yes') {
+      // Party / attending GIF (as per requirement)
+      bodyElement.style.backgroundImage = 'url("https://media.giphy.com/media/l2JHPB58MjfV8W3K0/giphy.gif")';
+      bodyElement.style.backgroundSize = 'cover';
+      bodyElement.style.backgroundPosition = 'center center';
+      bodyElement.style.backgroundRepeat = 'no-repeat';
+      bodyElement.style.backgroundAttachment = 'fixed';
+    } else if (attending === 'no') {
+      // Not attending GIF (sad / funny reaction gif from challenge note)
+      bodyElement.style.backgroundImage = 'url("https://media.giphy.com/media/JER2en0ZRiGUE/giphy.gif")';
+      bodyElement.style.backgroundSize = 'cover';
+      bodyElement.style.backgroundPosition = 'center center';
+      bodyElement.style.backgroundRepeat = 'no-repeat';
+      bodyElement.style.backgroundAttachment = 'fixed';
+    }
+  }
+  
+  // (Optional) default background fallback if user hasn't submitted: a colorful gradient but also stays hidden? 
+  // Setting initial default background with light pattern but once rsvp overrides.
+  // We'll set a subtle festive default gradient + meme pattern overlay? but to avoid conflict we keep a teal gradient default before any RSVP.
+  function setDefaultBackground() {
+    bodyElement.style.backgroundImage = 'radial-gradient(circle at 10% 20%, rgba(240,113,103,0.3), rgba(0,175,185,0.2)), repeating-linear-gradient(45deg, #ffdd8822 0px, #ffdd8822 2px, #f0716722 2px, #f0716722 8px)';
+    bodyElement.style.backgroundSize = 'auto, 20px 20px';
+    bodyElement.style.backgroundAttachment = 'fixed';
+  }
+  
+  // Set initial default background (subtle but party pattern)
+  setDefaultBackground();
+  
+  // Form submit handler
+  rsvpForm.addEventListener('submit', (event) => {
+    event.preventDefault();  // stop page refresh
+    
+    // get values
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value.trim();
+    const attendanceValue = document.getElementById('attendance').value;
+    
+    // Reset any previous custom border styles
+    emailInput.style.borderColor = '';
+    document.getElementById('attendance').style.borderColor = '';
+    
+    // 1. Validate email
+    if (!email) {
+      displayMessage('error', '📭 Please enter your email address to RSVP. We need to send you the GIF party details!', '📧❌');
+      emailInput.style.borderColor = '#f07167';
+      emailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      displayMessage('error', `🚫 "${email}" is not a valid email. Try something like memequeen@gif.gala`, '🤖💔');
+      emailInput.style.borderColor = '#f07167';
+      emailInput.focus();
+      return;
+    }
+    
+    // 2. Check attendance option (must be 'yes' or 'no')
+    if (!attendanceValue || (attendanceValue !== 'yes' && attendanceValue !== 'no')) {
+      displayMessage('error', '🎭 You need to select if you’re attending or not. Let us know your status!', '🎟️❓');
+      const attendanceSelect = document.getElementById('attendance');
+      attendanceSelect.style.borderColor = '#f07167';
+      attendanceSelect.focus();
+      return;
+    }
+    
+    // 3. Based on selection, generate personalized party message and set background.
+    if (attendanceValue === 'yes') {
+      // Positive attending message + party emoji (required)
+      const attendingMsg = '🎉 PARTY ON! 🎉 We look forward to seeing you at the GIF Gala! Prepare your wildest meme costume — legendary night ahead. ✨🐸🎭';
+      displayMessage('yes', attendingMsg, '🎊🎉🤣🎈');
+      // set background to the party GIF (attending)
+      setBackgroundByAttendance('yes');
+      
+      // Extra FUN: optional minor confetti effect using dynamic element (just for joyful vibe)
+      const miniCelebration = document.createElement('div');
+      miniCelebration.innerText = '🎊✨🎭🐸✨🎊';
+      miniCelebration.style.position = 'fixed';
+      miniCelebration.style.bottom = '20px';
+      miniCelebration.style.left = '20px';
+      miniCelebration.style.fontSize = '2rem';
+      miniCelebration.style.opacity = '0.8';
+      miniCelebration.style.pointerEvents = 'none';
+      miniCelebration.style.zIndex = '99';
+      miniCelebration.style.filter = 'drop-shadow(0 0 6px gold)';
+      document.body.appendChild(miniCelebration);
+      setTimeout(() => {
+        miniCelebration.style.transition = 'opacity 0.5s';
+        miniCelebration.style.opacity = '0';
+        setTimeout(() => miniCelebration.remove(), 500);
+      }, 1800);
+      
+    } else if (attendanceValue === 'no') {
+      // Not attending message (as required but with extra empathy)
+      const notAttendingMsg = '😔 We will miss you at the GIF Gala! 💔 A livestream of meme highlights will be shared. Hope to see you next time! 🕊️🎞️';
+      displayMessage('no', notAttendingMsg, '😢💔🕊️');
+      // set background to the not-attending GIF (sad/funny gif)
+      setBackgroundByAttendance('no');
+    }
+    
+    // Optional: clear form fields? The user might want to quickly update later but spec doesn't require reset,
+    // but we can reset email field and dropdown for better UX? Not required but cleaner.
+    // However, we also want to let them update again later - best practice is to keep values? I'll keep email field filled but not reset? 
+    // Actually the current `reset` in original file removed all; but to avoid accidental loss we'll NOT reset by default,
+    // but we can allow user to update again. However to match the initial script's reset but they used reset() after. We'll keep modern: just display confirmation and let user change again if needed.
+    // Not resetting the form, but it is more user friendly because they may want to edit? 
+    // However we can set success and optionally clear message but we leave form as is for further changes.
+    // But do not reset to avoid frustration — but we can also clear the message later upon new submit again works great.
+    // For better UX: after successful RSVP we could optionally scroll to message:
+    confirmationDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Additional small glow on submit button to give feedback
+    const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.style.transform = 'scale(0.99)';
+      setTimeout(() => { if(submitBtn) submitBtn.style.transform = ''; }, 150);
+    }
+  });
+  
+  // Bonus interactive: if user resubmits the background updates accordingly.
+  // Explanation for conditional statements (beginner friendly) appears in comments below but not required.
+  
+  /* ----------------------------------------------
+     JAVASCRIPT CONDITIONAL STATEMENTS EXPLANATION (for beginners)
+     ----------------------------------------------
+     In everyday life: "If it's raining, take an umbrella; else if it's cloudy, bring a jacket; otherwise enjoy the sunshine."
+     
+     In code:
+     if (condition) { 
+        // runs if condition is true
+     } else if (anotherCondition) {
+        // runs if first is false and this is true
+     } else {
+        // runs if none of the above are true
+     }
+     
+     Example from our script:
+     if (attendanceValue === 'yes') {
+        // show party message + party gif
+     } else if (attendanceValue === 'no') {
+        // show sad message + sad gif
+     } else {
+        // show error (missing selection)
+     }
+     
+     This lets the program make decisions based on user input.
+  ---------------------------------------------- */
+  
+  // Also handle any edge case: If GIF background loading issues, fallback style remains robust.
+  // Ensure that the background also covers full body for all screen sizes.
+  // Additional note: According to challenge requirements, the confirmation message initially hidden but we display only on submission.
+  // The confirmation space is empty by default.
+</script>
+</body>
+</html>
